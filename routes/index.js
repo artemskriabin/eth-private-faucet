@@ -19,6 +19,9 @@ router.get('/:to', async(req, res) => {
         return;
     }
     let count = await web3js.eth.getTransactionCount(provider.getAddress(0))
+    let chainId = await web3js.eth.getChainId()
+
+    console.log(chainId)
     var rawTransaction = {
         from: provider.getAddress(0),
         gasPrice: web3js.utils.toHex(20 * 1e9),
@@ -26,7 +29,7 @@ router.get('/:to', async(req, res) => {
         to: toAddress,
         value: web3js.utils.toHex(amount),
         // data: "0x0",
-        chainId: web3js.utils.toHex('45916'),
+        chainId: web3js.utils.toHex(chainId),
         nonce: web3js.utils.toHex(count)
     };
     web3js.eth.sendTransaction(rawTransaction);
